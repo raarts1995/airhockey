@@ -1,0 +1,17 @@
+Analysis & Synthesis Status : Successful - Mon Apr 29 10:44:31 2019
+Quartus Prime Version : 16.1.0 Build 196 10/24/2016 SJ Lite Edition
+Revision Name : VGA
+Top-level Entity Name : DE1_SOC_golden_top
+Family : Cyclone V
+Logic utilization (in ALMs) : N/A
+Total registers : 47
+Total pins : 241
+Total virtual pins : 0
+Total block memory bits : 1,536,000
+Total DSP Blocks : 1
+Total HSSI RX PCSs : 0
+Total HSSI PMA RX Deserializers : 0
+Total HSSI TX PCSs : 0
+Total HSSI PMA TX Serializers : 0
+Total PLLs : 1
+Total DLLs : 0

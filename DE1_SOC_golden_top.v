@@ -263,14 +263,8 @@ module DE1_SOC_golden_top(
 	wire [11:0] col;
 	wire [10:0] row;
 	
-	/*assign VGA_R = red;
-	assign VGA_G = green;
-	assign VGA_B = blue;
-	assign VGA_HS = hs;
-	assign VGA_VS = vs;
-	assign VGA_CLK = clock;
-	assign VGA_SYNC_N = 1'b0;
-	assign VGA_BLANK_N = hs & vs;*/
+	wire [16:0] ramAddress;
+	wire [15:0] ramOutput;
 	
 	assign GPIO_1[10:3] = red;
 	assign {GPIO_1[21], GPIO_1[19:18], GPIO_1[15:11]} = green;
@@ -278,6 +272,8 @@ module DE1_SOC_golden_top(
 	assign GPIO_1[30] = hs;
 	assign GPIO_1[31] = vs;
 	assign GPIO_1[1] = clock;
+	
+	assign ramAddress = col[11:1] + (row[10:1] * 400);
 
 //=======================================================
 //  Structural coding
@@ -285,6 +281,7 @@ module DE1_SOC_golden_top(
 
 	pll33mhz pll(.refclk(CLOCK_50), .rst(reset), .outclk_0(clock));
 	vgaController vga(.clock(clock), .reset(reset), .dispCol(col), .dispRow(row), .visible(visible), .hs(hs), .vs(vs));
+	videoRAM vRam(.data(ramAddress[15:0]), .rdaddress(ramAddress), .rdclock(clock), .wraddress(ramAddress), .wrclock(clock), .wren(1), .q(ramOutput));
 	
 	always @(posedge clock or posedge reset)
 	begin
@@ -298,7 +295,9 @@ module DE1_SOC_golden_top(
 		begin
 			if (visible)
 			begin
-				red = 255;
+				red =   {ramOutput[15:11], 3'b0};
+				green = {ramOutput[10:5], 2'b0};
+				blue =  {ramOutput[4:0], 3'b0};
 			end
 			else
 			begin
