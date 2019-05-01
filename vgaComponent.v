@@ -58,4 +58,4 @@ module vgaComponent(
 			end
 		end
 	end
-	end
+endmodule
