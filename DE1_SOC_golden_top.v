@@ -250,15 +250,19 @@ module DE1_SOC_golden_top(
 //  REG/WIRE declarations
 //=======================================================
 
-	wire clock;// = CLOCK_50;
-	wire reset = !KEY[0];
+	wire clock;
+	wire resetn = KEY[0];
 	
 	wire visible;
 	wire hs;
 	wire vs;
-	reg [7:0] red;
-	reg [7:0] green;
-	reg [7:0] blue;
+	wire [7:0] red;
+	wire [7:0] green;
+	wire [7:0] blue;
+	
+	wire scl;
+	wire sda;
+	wire I2Cint;
 	
 	wire [11:0] col;
 	wire [10:0] row;
@@ -273,6 +277,9 @@ module DE1_SOC_golden_top(
 	assign GPIO_1[31] = vs;
 	assign GPIO_1[1] = clock;
 	
+	assign GPIO_1[32] = scl;
+	assign GPIO_1[33] = sda;
+	
 	assign ramAddress = col[11:1] + (row[10:1] * 400);
 
 //=======================================================
@@ -280,12 +287,39 @@ module DE1_SOC_golden_top(
 //=======================================================
 
 	pll33mhz pll(.refclk(CLOCK_50), .rst(reset), .outclk_0(clock));
-	vgaController vga(.clock(clock), .reset(reset), .dispCol(col), .dispRow(row), .visible(visible), .hs(hs), .vs(vs));
+	nios u0 (
+        .clk_clk                            (clock),
+        .i2c_0_i2c_serial_sda_in            (sda),
+        .i2c_0_i2c_serial_scl_in            (scl),
+        .i2c_0_i2c_serial_sda_oe            (),
+        .i2c_0_i2c_serial_scl_oe            (),
+        .reset_reset_n                      (resetn),
+        .vgacomponent_0_outputs_redoutput   (red),
+        .vgacomponent_0_outputs_greenoutput (green),
+        .vgacomponent_0_outputs_blueoutput  (blue),
+        .vgacomponent_0_outputs_hsoutput    (hs),
+        .vgacomponent_0_outputs_vsoutput    (vs)
+    );
+	 
+	 /*vgaComponent vgaCom(
+		.clock(clock),
+		.reset(!resetn),
+		.data(16'hBAAB),
+		.addr(16'hBAAB),
+		.wren(1),
+		.rOut(red),
+		.gOut(green),
+		.bOut(blue),
+		.hsOut(hs),
+		.vsOut(vs)
+	);*/
+	
+	/*vgaController vga(.clock(clock), .reset(reset), .dispCol(col), .dispRow(row), .visible(visible), .hs(hs), .vs(vs));
 	videoRAM vRam(.data(ramAddress[15:0]), .rdaddress(ramAddress), .rdclock(clock), .wraddress(ramAddress), .wrclock(clock), .wren(1), .q(ramOutput));
 	
-	always @(posedge clock or posedge reset)
+	always @(posedge clock or negedge reset)
 	begin
-		if (reset)
+		if (!reset)
 		begin
 			red = 0;
 			green = 0;
@@ -306,6 +340,6 @@ module DE1_SOC_golden_top(
 				blue = 0;
 			end
 		end
-	end
+	end*/
 	
 endmodule

@@ -46,7 +46,6 @@ module vgaController(
 	parameter VER_STP_SYNC = 776; 
 	parameter VER_TOTAL = 805;*/
 	
-	
 	//.. Hz 800 x 480 LCD - 33MHz clock
 	parameter HOR_FIELD = 799; 
 	parameter HOR_STR_SYNC = 1009;
@@ -69,32 +68,34 @@ module vgaController(
 			dispRow = 0;
 			hs = 0;
 			vs = 0;
+			horVisible = 0;
+			verVisible = 0;
 		end
 		else
 		begin
 			if (dispCol <= HOR_TOTAL)
 			begin
-				dispCol = dispCol + 1;
-				
 				horVisible = ((dispCol <= HOR_FIELD) ? 1 : 0);
 				hs = ((dispCol > HOR_STR_SYNC && dispCol <= HOR_STP_SYNC) ? 0 : 1);
 				
+				dispCol = dispCol + 1;
 			end
 			else //einde van regel. reset horizontale counter en tel vertical counter op
 			begin
 				dispCol = 0;
+				horVisible = 1;
 				
 				if (dispRow <= VER_TOTAL)
 				begin
-					dispRow = dispRow + 1;
-					
 					verVisible = ((dispRow <= VER_FIELD) ? 1 : 0);
 					vs = ((dispRow > VER_STR_SYNC && dispRow <= VER_STP_SYNC) ? 0 : 1);
 					
+					dispRow = dispRow + 1;
 				end
 				else
 				begin
 					dispRow = 0;
+					verVisible = 1;
 				end
 			end
 		end
