@@ -250,7 +250,8 @@ module DE1_SOC_golden_top(
 //  REG/WIRE declarations
 //=======================================================
 
-	wire clock;
+	wire dataClock = CLOCK_50;
+	wire vgaClock;
 	wire resetn = KEY[0];
 	
 	wire visible;
@@ -262,7 +263,8 @@ module DE1_SOC_golden_top(
 	
 	wire scl;
 	wire sda;
-	wire I2Cint;
+	wire sclOe;
+	wire sdaOe;
 	
 	wire [11:0] col;
 	wire [10:0] row;
@@ -275,10 +277,12 @@ module DE1_SOC_golden_top(
 	assign {GPIO_1[28:22], GPIO_1[20]} = blue;
 	assign GPIO_1[30] = hs;
 	assign GPIO_1[31] = vs;
-	assign GPIO_1[1] = clock;
+	assign GPIO_1[1] = vgaClock;
 	
 	assign GPIO_1[32] = scl;
 	assign GPIO_1[33] = sda;
+	assign scl = sclOe ? 1'b0 : 1'bz;
+	assign sda = sdaOe ? 1'b0 : 1'bz;
 	
 	assign ramAddress = col[11:1] + (row[10:1] * 400);
 
@@ -286,23 +290,26 @@ module DE1_SOC_golden_top(
 //  Structural coding
 //=======================================================
 
-	pll33mhz pll(.refclk(CLOCK_50), .rst(reset), .outclk_0(clock));
+	pll33mhz pll(.refclk(dataClock), .rst(reset), .outclk_0(vgaClock));
 	nios u0 (
-        .clk_clk                            (clock),
+        .clk_clk                            (dataClock),
         .i2c_0_i2c_serial_sda_in            (sda),
         .i2c_0_i2c_serial_scl_in            (scl),
-        .i2c_0_i2c_serial_sda_oe            (),
-        .i2c_0_i2c_serial_scl_oe            (),
+        .i2c_0_i2c_serial_sda_oe            (sdaOe),
+        .i2c_0_i2c_serial_scl_oe            (sclOe),
         .reset_reset_n                      (resetn),
         .vgacomponent_0_outputs_redoutput   (red),
         .vgacomponent_0_outputs_greenoutput (green),
         .vgacomponent_0_outputs_blueoutput  (blue),
         .vgacomponent_0_outputs_hsoutput    (hs),
-        .vgacomponent_0_outputs_vsoutput    (vs)
+        .vgacomponent_0_outputs_vsoutput    (vs),
+		  .vgacomponent_0_vgaclock_clk        (vgaClock),
+		  .leds_export                        (LEDR)
     );
 	 
 	 /*vgaComponent vgaCom(
-		.clock(clock),
+		.dataclock(dataClock),
+		.vgaclock(vgaClock),
 		.reset(!resetn),
 		.data(16'hBAAB),
 		.addr(16'hBAAB),
@@ -314,10 +321,10 @@ module DE1_SOC_golden_top(
 		.vsOut(vs)
 	);*/
 	
-	/*vgaController vga(.clock(clock), .reset(reset), .dispCol(col), .dispRow(row), .visible(visible), .hs(hs), .vs(vs));
-	videoRAM vRam(.data(ramAddress[15:0]), .rdaddress(ramAddress), .rdclock(clock), .wraddress(ramAddress), .wrclock(clock), .wren(1), .q(ramOutput));
+	/*vgaController vga(.clock(vgaClock), .reset(reset), .dispCol(col), .dispRow(row), .visible(visible), .hs(hs), .vs(vs));
+	videoRAM vRam(.data(ramAddress[15:0]), .rdaddress(ramAddress), .rdclock(vgaClock), .wraddress(ramAddress), .wrclock(dataClock), .wren(1), .q(ramOutput));
 	
-	always @(posedge clock or negedge reset)
+	always @(posedge vgaClock or negedge reset)
 	begin
 		if (!reset)
 		begin

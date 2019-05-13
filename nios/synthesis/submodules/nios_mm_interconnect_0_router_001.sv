@@ -50,9 +50,9 @@ module nios_mm_interconnect_0_router_001_default_decode
                DEFAULT_DESTID = 3 
    )
   (output [81 - 79 : 0] default_destination_id,
-   output [5-1 : 0] default_wr_channel,
-   output [5-1 : 0] default_rd_channel,
-   output [5-1 : 0] default_src_channel
+   output [6-1 : 0] default_wr_channel,
+   output [6-1 : 0] default_rd_channel,
+   output [6-1 : 0] default_src_channel
   );
 
   assign default_destination_id = 
@@ -63,7 +63,7 @@ module nios_mm_interconnect_0_router_001_default_decode
       assign default_src_channel = '0;
     end
     else begin : default_channel_assignment
-      assign default_src_channel = 5'b1 << DEFAULT_CHANNEL;
+      assign default_src_channel = 6'b1 << DEFAULT_CHANNEL;
     end
   endgenerate
 
@@ -73,8 +73,8 @@ module nios_mm_interconnect_0_router_001_default_decode
       assign default_rd_channel = '0;
     end
     else begin : default_rw_channel_assignment
-      assign default_wr_channel = 5'b1 << DEFAULT_WR_CHANNEL;
-      assign default_rd_channel = 5'b1 << DEFAULT_RD_CHANNEL;
+      assign default_wr_channel = 6'b1 << DEFAULT_WR_CHANNEL;
+      assign default_rd_channel = 6'b1 << DEFAULT_RD_CHANNEL;
     end
   endgenerate
 
@@ -103,7 +103,7 @@ module nios_mm_interconnect_0_router_001
     // -------------------
     output                          src_valid,
     output reg [95-1    : 0] src_data,
-    output reg [5-1 : 0] src_channel,
+    output reg [6-1 : 0] src_channel,
     output                          src_startofpacket,
     output                          src_endofpacket,
     input                           src_ready
@@ -119,7 +119,7 @@ module nios_mm_interconnect_0_router_001
     localparam PKT_PROTECTION_H = 85;
     localparam PKT_PROTECTION_L = 83;
     localparam ST_DATA_W = 95;
-    localparam ST_CHANNEL_W = 5;
+    localparam ST_CHANNEL_W = 6;
     localparam DECODER_TYPE = 0;
 
     localparam PKT_TRANS_WRITE = 57;
@@ -134,14 +134,14 @@ module nios_mm_interconnect_0_router_001
     // Figure out the number of bits to mask off for each slave span
     // during address decoding
     // -------------------------------------------------------
-    localparam PAD0 = log2ceil(64'h42000 - 64'h41000); 
-    localparam PAD1 = log2ceil(64'h43000 - 64'h42800); 
+    localparam PAD0 = log2ceil(64'h50000 - 64'h48000); 
+    localparam PAD1 = log2ceil(64'h51000 - 64'h50800); 
     // -------------------------------------------------------
     // Work out which address bits are significant based on the
     // address range of the slaves. If the required width is too
     // large or too small, we use the address field width instead.
     // -------------------------------------------------------
-    localparam ADDR_RANGE = 64'h43000;
+    localparam ADDR_RANGE = 64'h51000;
     localparam RANGE_ADDR_WIDTH = log2ceil(ADDR_RANGE);
     localparam OPTIMIZED_ADDR_H = (RANGE_ADDR_WIDTH > PKT_ADDR_W) ||
                                   (RANGE_ADDR_WIDTH == 0) ?
@@ -165,7 +165,7 @@ module nios_mm_interconnect_0_router_001
     assign src_startofpacket = sink_startofpacket;
     assign src_endofpacket   = sink_endofpacket;
     wire [PKT_DEST_ID_W-1:0] default_destid;
-    wire [5-1 : 0] default_src_channel;
+    wire [6-1 : 0] default_src_channel;
 
 
 
@@ -189,15 +189,15 @@ module nios_mm_interconnect_0_router_001
         // Sets the channel and destination ID based on the address
         // --------------------------------------------------
 
-    // ( 0x41000 .. 0x42000 )
-    if ( {address[RG:PAD0],{PAD0{1'b0}}} == 19'h41000   ) begin
-            src_channel = 5'b10;
+    // ( 0x48000 .. 0x50000 )
+    if ( {address[RG:PAD0],{PAD0{1'b0}}} == 19'h48000   ) begin
+            src_channel = 6'b10;
             src_data[PKT_DEST_ID_H:PKT_DEST_ID_L] = 3;
     end
 
-    // ( 0x42800 .. 0x43000 )
-    if ( {address[RG:PAD1],{PAD1{1'b0}}} == 19'h42800   ) begin
-            src_channel = 5'b01;
+    // ( 0x50800 .. 0x51000 )
+    if ( {address[RG:PAD1],{PAD1{1'b0}}} == 19'h50800   ) begin
+            src_channel = 6'b01;
             src_data[PKT_DEST_ID_H:PKT_DEST_ID_L] = 2;
     end
 

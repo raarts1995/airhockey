@@ -29,7 +29,7 @@
    {
       datum baseAddress
       {
-         value = "274432";
+         value = "331776";
          type = "String";
       }
    }
@@ -45,7 +45,7 @@
    {
       datum baseAddress
       {
-         value = "274496";
+         value = "331856";
          type = "String";
       }
    }
@@ -77,7 +77,7 @@
    {
       datum baseAddress
       {
-         value = "272384";
+         value = "329728";
          type = "String";
       }
    }
@@ -93,7 +93,23 @@
    {
       datum baseAddress
       {
-         value = "266240";
+         value = "294912";
+         type = "String";
+      }
+   }
+   element pio_0
+   {
+      datum _sortIndex
+      {
+         value = "6";
+         type = "int";
+      }
+   }
+   element pio_0.s1
+   {
+      datum baseAddress
+      {
+         value = "331840";
          type = "String";
       }
    }
@@ -140,13 +156,22 @@
    internal="i2c_0.i2c_serial"
    type="conduit"
    dir="end" />
+ <interface
+   name="leds"
+   internal="pio_0.external_connection"
+   type="conduit"
+   dir="end" />
  <interface name="reset" internal="clk_0.clk_in_reset" type="reset" dir="end" />
  <interface
    name="vgacomponent_0_outputs"
    internal="vgaComponent_0.Outputs"
    type="conduit"
    dir="end" />
- <interface name="vgacomponent_0_vgaclock" internal="vgaComponent_0.vgaclock" />
+ <interface
+   name="vgacomponent_0_vgaclock"
+   internal="vgaComponent_0.vgaclock"
+   type="clock"
+   dir="end" />
  <module name="clk_0" kind="clock_source" version="16.1" enabled="1">
   <parameter name="clockFrequency" value="50000000" />
   <parameter name="clockFrequencyKnown" value="true" />
@@ -191,7 +216,7 @@
   <parameter name="cpuReset" value="false" />
   <parameter name="customInstSlavesSystemInfo" value="&lt;info/&gt;" />
   <parameter name="dataAddrWidth" value="19" />
-  <parameter name="dataSlaveMapParam"><![CDATA[<address-map><slave name='vgaComponent_0.avalon_slave_0' start='0x0' end='0x40000' /><slave name='onchip_memory2_0.s1' start='0x41000' end='0x42000' /><slave name='nios2_qsys_0.jtag_debug_module' start='0x42800' end='0x43000' /><slave name='i2c_0.csr' start='0x43000' end='0x43040' /><slave name='jtag_uart_0.avalon_jtag_slave' start='0x43040' end='0x43048' /></address-map>]]></parameter>
+  <parameter name="dataSlaveMapParam"><![CDATA[<address-map><slave name='vgaComponent_0.avalon_slave_0' start='0x0' end='0x40000' /><slave name='onchip_memory2_0.s1' start='0x48000' end='0x50000' /><slave name='nios2_qsys_0.jtag_debug_module' start='0x50800' end='0x51000' /><slave name='i2c_0.csr' start='0x51000' end='0x51040' /><slave name='pio_0.s1' start='0x51040' end='0x51050' /><slave name='jtag_uart_0.avalon_jtag_slave' start='0x51050' end='0x51058' /></address-map>]]></parameter>
   <parameter name="dcache_bursts" value="false" />
   <parameter name="dcache_lineSize" value="32" />
   <parameter name="dcache_numTCDM" value="0" />
@@ -218,7 +243,7 @@
   <parameter name="icache_tagramBlockType" value="Automatic" />
   <parameter name="impl" value="Small" />
   <parameter name="instAddrWidth" value="19" />
-  <parameter name="instSlaveMapParam"><![CDATA[<address-map><slave name='onchip_memory2_0.s1' start='0x41000' end='0x42000' /><slave name='nios2_qsys_0.jtag_debug_module' start='0x42800' end='0x43000' /></address-map>]]></parameter>
+  <parameter name="instSlaveMapParam"><![CDATA[<address-map><slave name='onchip_memory2_0.s1' start='0x48000' end='0x50000' /><slave name='nios2_qsys_0.jtag_debug_module' start='0x50800' end='0x51000' /></address-map>]]></parameter>
   <parameter name="internalIrqMaskSystemInfo" value="3" />
   <parameter name="manuallyAssignCpuID" value="true" />
   <parameter name="mmu_TLBMissExcOffset" value="0" />
@@ -328,7 +353,7 @@
   <parameter name="initMemContent" value="true" />
   <parameter name="initializationFileName" value="onchip_mem.hex" />
   <parameter name="instanceID" value="NONE" />
-  <parameter name="memorySize" value="4096" />
+  <parameter name="memorySize" value="32768" />
   <parameter name="readDuringWriteMode" value="DONT_CARE" />
   <parameter name="resetrequest_enabled" value="true" />
   <parameter name="simAllowMRAMContentsFile" value="false" />
@@ -340,6 +365,20 @@
   <parameter name="useShallowMemBlocks" value="false" />
   <parameter name="writable" value="true" />
  </module>
+ <module name="pio_0" kind="altera_avalon_pio" version="16.1" enabled="1">
+  <parameter name="bitClearingEdgeCapReg" value="false" />
+  <parameter name="bitModifyingOutReg" value="false" />
+  <parameter name="captureEdge" value="false" />
+  <parameter name="clockRate" value="50000000" />
+  <parameter name="direction" value="Output" />
+  <parameter name="edgeType" value="RISING" />
+  <parameter name="generateIRQ" value="false" />
+  <parameter name="irqType" value="LEVEL" />
+  <parameter name="resetValue" value="0" />
+  <parameter name="simDoTestBenchWiring" value="false" />
+  <parameter name="simDrivenValue" value="0" />
+  <parameter name="width" value="10" />
+ </module>
  <module name="vgaComponent_0" kind="vgaComponent" version="1.0" enabled="1" />
  <connection
    kind="avalon"
@@ -347,7 +386,7 @@
    start="nios2_qsys_0.data_master"
    end="jtag_uart_0.avalon_jtag_slave">
   <parameter name="arbitrationPriority" value="1" />
-  <parameter name="baseAddress" value="0x00043040" />
+  <parameter name="baseAddress" value="0x00051050" />
   <parameter name="defaultConnection" value="false" />
  </connection>
  <connection
@@ -365,7 +404,7 @@
    start="nios2_qsys_0.data_master"
    end="i2c_0.csr">
   <parameter name="arbitrationPriority" value="1" />
-  <parameter name="baseAddress" value="0x00043000" />
+  <parameter name="baseAddress" value="0x00051000" />
   <parameter name="defaultConnection" value="false" />
  </connection>
  <connection
@@ -374,7 +413,7 @@
    start="nios2_qsys_0.data_master"
    end="nios2_qsys_0.jtag_debug_module">
   <parameter name="arbitrationPriority" value="1" />
-  <parameter name="baseAddress" value="0x00042800" />
+  <parameter name="baseAddress" value="0x00050800" />
   <parameter name="defaultConnection" value="false" />
  </connection>
  <connection
@@ -383,7 +422,16 @@
    start="nios2_qsys_0.data_master"
    end="onchip_memory2_0.s1">
   <parameter name="arbitrationPriority" value="1" />
-  <parameter name="baseAddress" value="0x00041000" />
+  <parameter name="baseAddress" value="0x00048000" />
+  <parameter name="defaultConnection" value="false" />
+ </connection>
+ <connection
+   kind="avalon"
+   version="16.1"
+   start="nios2_qsys_0.data_master"
+   end="pio_0.s1">
+  <parameter name="arbitrationPriority" value="1" />
+  <parameter name="baseAddress" value="0x00051040" />
   <parameter name="defaultConnection" value="false" />
  </connection>
  <connection
@@ -392,7 +440,7 @@
    start="nios2_qsys_0.instruction_master"
    end="nios2_qsys_0.jtag_debug_module">
   <parameter name="arbitrationPriority" value="1" />
-  <parameter name="baseAddress" value="0x00042800" />
+  <parameter name="baseAddress" value="0x00050800" />
   <parameter name="defaultConnection" value="false" />
  </connection>
  <connection
@@ -401,11 +449,12 @@
    start="nios2_qsys_0.instruction_master"
    end="onchip_memory2_0.s1">
   <parameter name="arbitrationPriority" value="1" />
-  <parameter name="baseAddress" value="0x00041000" />
+  <parameter name="baseAddress" value="0x00048000" />
   <parameter name="defaultConnection" value="false" />
  </connection>
  <connection kind="clock" version="16.1" start="clk_0.clk" end="nios2_qsys_0.clk" />
  <connection kind="clock" version="16.1" start="clk_0.clk" end="jtag_uart_0.clk" />
+ <connection kind="clock" version="16.1" start="clk_0.clk" end="pio_0.clk" />
  <connection
    kind="clock"
    version="16.1"
@@ -436,6 +485,7 @@
    version="16.1"
    start="clk_0.clk_reset"
    end="jtag_uart_0.reset" />
+ <connection kind="reset" version="16.1" start="clk_0.clk_reset" end="pio_0.reset" />
  <connection
    kind="reset"
    version="16.1"
@@ -461,6 +511,11 @@
    version="16.1"
    start="nios2_qsys_0.jtag_debug_module_reset"
    end="jtag_uart_0.reset" />
+ <connection
+   kind="reset"
+   version="16.1"
+   start="nios2_qsys_0.jtag_debug_module_reset"
+   end="pio_0.reset" />
  <connection
    kind="reset"
    version="16.1"

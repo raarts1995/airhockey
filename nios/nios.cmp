@@ -5,12 +5,14 @@
 			i2c_0_i2c_serial_scl_in            : in  std_logic                    := 'X'; -- scl_in
 			i2c_0_i2c_serial_sda_oe            : out std_logic;                           -- sda_oe
 			i2c_0_i2c_serial_scl_oe            : out std_logic;                           -- scl_oe
+			leds_export                        : out std_logic_vector(9 downto 0);        -- export
 			reset_reset_n                      : in  std_logic                    := 'X'; -- reset_n
 			vgacomponent_0_outputs_greenoutput : out std_logic_vector(7 downto 0);        -- greenoutput
 			vgacomponent_0_outputs_redoutput   : out std_logic_vector(7 downto 0);        -- redoutput
 			vgacomponent_0_outputs_blueoutput  : out std_logic_vector(7 downto 0);        -- blueoutput
 			vgacomponent_0_outputs_hsoutput    : out std_logic;                           -- hsoutput
-			vgacomponent_0_outputs_vsoutput    : out std_logic                            -- vsoutput
+			vgacomponent_0_outputs_vsoutput    : out std_logic;                           -- vsoutput
+			vgacomponent_0_vgaclock_clk        : in  std_logic                    := 'X'  -- clk
 		);
 	end component nios;
 

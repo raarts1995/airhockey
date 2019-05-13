@@ -1,10 +1,13 @@
 module vga_avalon_interface(
-	clock,
+	dataClock,
+	vgaClock,
 	resetn,
 	chipselect,
-	write,
 	address,
+	write,
 	writedata,
+	read,
+	readdata,
 	redout,
 	greenout,
 	blueout,
@@ -13,20 +16,24 @@ module vga_avalon_interface(
 );
 	
 	// signals for connecting to the Avalon fabric
-	input clock, resetn, chipselect, write;
-	input [16:0] address;
-	input [15:0] writedata;
+	input dataClock, vgaClock, resetn, chipselect, write, read;
+	input [15:0] address;
+	input [31:0] writedata;
+	output [31:0] readdata;
 	output [7:0] redout;
 	output [7:0] greenout;
 	output [7:0] blueout;
 	output hsout, vsout;
 	
 	vgaComponent vgaC(
-		.clock(clock),
+		.dataclock(dataClock),
+		.vgaclock(vgaClock),
 		.reset(!resetn),
-		.data(writedata),
 		.addr(address),
+		.data(writedata),
+		.dataout(readdata),
 		.wren(write),
+		.rden(read),
 		.rOut(redout),
 		.gOut(greenout),
 		.bOut(blueout),

@@ -4,17 +4,19 @@
 
 `timescale 1 ps / 1 ps
 module nios (
-		input  wire       clk_clk,                            //                    clk.clk
-		input  wire       i2c_0_i2c_serial_sda_in,            //       i2c_0_i2c_serial.sda_in
-		input  wire       i2c_0_i2c_serial_scl_in,            //                       .scl_in
-		output wire       i2c_0_i2c_serial_sda_oe,            //                       .sda_oe
-		output wire       i2c_0_i2c_serial_scl_oe,            //                       .scl_oe
-		input  wire       reset_reset_n,                      //                  reset.reset_n
-		output wire [7:0] vgacomponent_0_outputs_greenoutput, // vgacomponent_0_outputs.greenoutput
-		output wire [7:0] vgacomponent_0_outputs_redoutput,   //                       .redoutput
-		output wire [7:0] vgacomponent_0_outputs_blueoutput,  //                       .blueoutput
-		output wire       vgacomponent_0_outputs_hsoutput,    //                       .hsoutput
-		output wire       vgacomponent_0_outputs_vsoutput     //                       .vsoutput
+		input  wire       clk_clk,                            //                     clk.clk
+		input  wire       i2c_0_i2c_serial_sda_in,            //        i2c_0_i2c_serial.sda_in
+		input  wire       i2c_0_i2c_serial_scl_in,            //                        .scl_in
+		output wire       i2c_0_i2c_serial_sda_oe,            //                        .sda_oe
+		output wire       i2c_0_i2c_serial_scl_oe,            //                        .scl_oe
+		output wire [9:0] leds_export,                        //                    leds.export
+		input  wire       reset_reset_n,                      //                   reset.reset_n
+		output wire [7:0] vgacomponent_0_outputs_greenoutput, //  vgacomponent_0_outputs.greenoutput
+		output wire [7:0] vgacomponent_0_outputs_redoutput,   //                        .redoutput
+		output wire [7:0] vgacomponent_0_outputs_blueoutput,  //                        .blueoutput
+		output wire       vgacomponent_0_outputs_hsoutput,    //                        .hsoutput
+		output wire       vgacomponent_0_outputs_vsoutput,    //                        .vsoutput
+		input  wire       vgacomponent_0_vgaclock_clk         // vgacomponent_0_vgaclock.clk
 	);
 
 	wire  [31:0] nios2_qsys_0_data_master_readdata;                            // mm_interconnect_0:nios2_qsys_0_data_master_readdata -> nios2_qsys_0:d_readdata
@@ -38,9 +40,11 @@ module nios (
 	wire         mm_interconnect_0_jtag_uart_0_avalon_jtag_slave_write;        // mm_interconnect_0:jtag_uart_0_avalon_jtag_slave_write -> jtag_uart_0:av_write_n
 	wire  [31:0] mm_interconnect_0_jtag_uart_0_avalon_jtag_slave_writedata;    // mm_interconnect_0:jtag_uart_0_avalon_jtag_slave_writedata -> jtag_uart_0:av_writedata
 	wire         mm_interconnect_0_vgacomponent_0_avalon_slave_0_chipselect;   // mm_interconnect_0:vgaComponent_0_avalon_slave_0_chipselect -> vgaComponent_0:chipselect
-	wire  [16:0] mm_interconnect_0_vgacomponent_0_avalon_slave_0_address;      // mm_interconnect_0:vgaComponent_0_avalon_slave_0_address -> vgaComponent_0:address
+	wire  [31:0] mm_interconnect_0_vgacomponent_0_avalon_slave_0_readdata;     // vgaComponent_0:readdata -> mm_interconnect_0:vgaComponent_0_avalon_slave_0_readdata
+	wire  [15:0] mm_interconnect_0_vgacomponent_0_avalon_slave_0_address;      // mm_interconnect_0:vgaComponent_0_avalon_slave_0_address -> vgaComponent_0:address
+	wire         mm_interconnect_0_vgacomponent_0_avalon_slave_0_read;         // mm_interconnect_0:vgaComponent_0_avalon_slave_0_read -> vgaComponent_0:read
 	wire         mm_interconnect_0_vgacomponent_0_avalon_slave_0_write;        // mm_interconnect_0:vgaComponent_0_avalon_slave_0_write -> vgaComponent_0:write
-	wire  [15:0] mm_interconnect_0_vgacomponent_0_avalon_slave_0_writedata;    // mm_interconnect_0:vgaComponent_0_avalon_slave_0_writedata -> vgaComponent_0:writedata
+	wire  [31:0] mm_interconnect_0_vgacomponent_0_avalon_slave_0_writedata;    // mm_interconnect_0:vgaComponent_0_avalon_slave_0_writedata -> vgaComponent_0:writedata
 	wire  [31:0] mm_interconnect_0_i2c_0_csr_readdata;                         // i2c_0:readdata -> mm_interconnect_0:i2c_0_csr_readdata
 	wire   [3:0] mm_interconnect_0_i2c_0_csr_address;                          // mm_interconnect_0:i2c_0_csr_address -> i2c_0:addr
 	wire         mm_interconnect_0_i2c_0_csr_read;                             // mm_interconnect_0:i2c_0_csr_read -> i2c_0:read
@@ -56,15 +60,20 @@ module nios (
 	wire  [31:0] mm_interconnect_0_nios2_qsys_0_jtag_debug_module_writedata;   // mm_interconnect_0:nios2_qsys_0_jtag_debug_module_writedata -> nios2_qsys_0:jtag_debug_module_writedata
 	wire         mm_interconnect_0_onchip_memory2_0_s1_chipselect;             // mm_interconnect_0:onchip_memory2_0_s1_chipselect -> onchip_memory2_0:chipselect
 	wire  [31:0] mm_interconnect_0_onchip_memory2_0_s1_readdata;               // onchip_memory2_0:readdata -> mm_interconnect_0:onchip_memory2_0_s1_readdata
-	wire   [9:0] mm_interconnect_0_onchip_memory2_0_s1_address;                // mm_interconnect_0:onchip_memory2_0_s1_address -> onchip_memory2_0:address
+	wire  [12:0] mm_interconnect_0_onchip_memory2_0_s1_address;                // mm_interconnect_0:onchip_memory2_0_s1_address -> onchip_memory2_0:address
 	wire   [3:0] mm_interconnect_0_onchip_memory2_0_s1_byteenable;             // mm_interconnect_0:onchip_memory2_0_s1_byteenable -> onchip_memory2_0:byteenable
 	wire         mm_interconnect_0_onchip_memory2_0_s1_write;                  // mm_interconnect_0:onchip_memory2_0_s1_write -> onchip_memory2_0:write
 	wire  [31:0] mm_interconnect_0_onchip_memory2_0_s1_writedata;              // mm_interconnect_0:onchip_memory2_0_s1_writedata -> onchip_memory2_0:writedata
 	wire         mm_interconnect_0_onchip_memory2_0_s1_clken;                  // mm_interconnect_0:onchip_memory2_0_s1_clken -> onchip_memory2_0:clken
+	wire         mm_interconnect_0_pio_0_s1_chipselect;                        // mm_interconnect_0:pio_0_s1_chipselect -> pio_0:chipselect
+	wire  [31:0] mm_interconnect_0_pio_0_s1_readdata;                          // pio_0:readdata -> mm_interconnect_0:pio_0_s1_readdata
+	wire   [1:0] mm_interconnect_0_pio_0_s1_address;                           // mm_interconnect_0:pio_0_s1_address -> pio_0:address
+	wire         mm_interconnect_0_pio_0_s1_write;                             // mm_interconnect_0:pio_0_s1_write -> pio_0:write_n
+	wire  [31:0] mm_interconnect_0_pio_0_s1_writedata;                         // mm_interconnect_0:pio_0_s1_writedata -> pio_0:writedata
 	wire         irq_mapper_receiver0_irq;                                     // i2c_0:intr -> irq_mapper:receiver0_irq
 	wire         irq_mapper_receiver1_irq;                                     // jtag_uart_0:av_irq -> irq_mapper:receiver1_irq
 	wire  [31:0] nios2_qsys_0_d_irq_irq;                                       // irq_mapper:sender_irq -> nios2_qsys_0:d_irq
-	wire         rst_controller_reset_out_reset;                               // rst_controller:reset_out -> [i2c_0:rst_n, irq_mapper:reset, jtag_uart_0:rst_n, mm_interconnect_0:nios2_qsys_0_reset_n_reset_bridge_in_reset_reset, nios2_qsys_0:reset_n, onchip_memory2_0:reset, rst_translator:in_reset, vgaComponent_0:resetn]
+	wire         rst_controller_reset_out_reset;                               // rst_controller:reset_out -> [i2c_0:rst_n, irq_mapper:reset, jtag_uart_0:rst_n, mm_interconnect_0:nios2_qsys_0_reset_n_reset_bridge_in_reset_reset, nios2_qsys_0:reset_n, onchip_memory2_0:reset, pio_0:reset_n, rst_translator:in_reset, vgaComponent_0:resetn]
 	wire         rst_controller_reset_out_reset_req;                           // rst_controller:reset_req -> [nios2_qsys_0:reset_req, onchip_memory2_0:reset_req, rst_translator:reset_req_in]
 	wire         nios2_qsys_0_jtag_debug_module_reset_reset;                   // nios2_qsys_0:jtag_debug_module_resetrequest -> rst_controller:reset_in1
 
@@ -150,18 +159,32 @@ module nios (
 		.freeze     (1'b0)                                              // (terminated)
 	);
 
+	nios_pio_0 pio_0 (
+		.clk        (clk_clk),                               //                 clk.clk
+		.reset_n    (~rst_controller_reset_out_reset),       //               reset.reset_n
+		.address    (mm_interconnect_0_pio_0_s1_address),    //                  s1.address
+		.write_n    (~mm_interconnect_0_pio_0_s1_write),     //                    .write_n
+		.writedata  (mm_interconnect_0_pio_0_s1_writedata),  //                    .writedata
+		.chipselect (mm_interconnect_0_pio_0_s1_chipselect), //                    .chipselect
+		.readdata   (mm_interconnect_0_pio_0_s1_readdata),   //                    .readdata
+		.out_port   (leds_export)                            // external_connection.export
+	);
+
 	vga_avalon_interface vgacomponent_0 (
 		.address    (mm_interconnect_0_vgacomponent_0_avalon_slave_0_address),    // avalon_slave_0.address
 		.chipselect (mm_interconnect_0_vgacomponent_0_avalon_slave_0_chipselect), //               .chipselect
 		.write      (mm_interconnect_0_vgacomponent_0_avalon_slave_0_write),      //               .write
 		.writedata  (mm_interconnect_0_vgacomponent_0_avalon_slave_0_writedata),  //               .writedata
+		.read       (mm_interconnect_0_vgacomponent_0_avalon_slave_0_read),       //               .read
+		.readdata   (mm_interconnect_0_vgacomponent_0_avalon_slave_0_readdata),   //               .readdata
 		.greenout   (vgacomponent_0_outputs_greenoutput),                         //        Outputs.greenoutput
 		.redout     (vgacomponent_0_outputs_redoutput),                           //               .redoutput
 		.blueout    (vgacomponent_0_outputs_blueoutput),                          //               .blueoutput
 		.hsout      (vgacomponent_0_outputs_hsoutput),                            //               .hsoutput
 		.vsout      (vgacomponent_0_outputs_vsoutput),                            //               .vsoutput
-		.clock      (clk_clk),                                                    //          clock.clk
-		.resetn     (~rst_controller_reset_out_reset)                             //        reset_n.reset_n
+		.dataClock  (clk_clk),                                                    //          clock.clk
+		.resetn     (~rst_controller_reset_out_reset),                            //        reset_n.reset_n
+		.vgaClock   (vgacomponent_0_vgaclock_clk)                                 //       vgaclock.clk
 	);
 
 	nios_mm_interconnect_0 mm_interconnect_0 (
@@ -207,8 +230,15 @@ module nios (
 		.onchip_memory2_0_s1_byteenable                   (mm_interconnect_0_onchip_memory2_0_s1_byteenable),             //                                           .byteenable
 		.onchip_memory2_0_s1_chipselect                   (mm_interconnect_0_onchip_memory2_0_s1_chipselect),             //                                           .chipselect
 		.onchip_memory2_0_s1_clken                        (mm_interconnect_0_onchip_memory2_0_s1_clken),                  //                                           .clken
+		.pio_0_s1_address                                 (mm_interconnect_0_pio_0_s1_address),                           //                                   pio_0_s1.address
+		.pio_0_s1_write                                   (mm_interconnect_0_pio_0_s1_write),                             //                                           .write
+		.pio_0_s1_readdata                                (mm_interconnect_0_pio_0_s1_readdata),                          //                                           .readdata
+		.pio_0_s1_writedata                               (mm_interconnect_0_pio_0_s1_writedata),                         //                                           .writedata
+		.pio_0_s1_chipselect                              (mm_interconnect_0_pio_0_s1_chipselect),                        //                                           .chipselect
 		.vgaComponent_0_avalon_slave_0_address            (mm_interconnect_0_vgacomponent_0_avalon_slave_0_address),      //              vgaComponent_0_avalon_slave_0.address
 		.vgaComponent_0_avalon_slave_0_write              (mm_interconnect_0_vgacomponent_0_avalon_slave_0_write),        //                                           .write
+		.vgaComponent_0_avalon_slave_0_read               (mm_interconnect_0_vgacomponent_0_avalon_slave_0_read),         //                                           .read
+		.vgaComponent_0_avalon_slave_0_readdata           (mm_interconnect_0_vgacomponent_0_avalon_slave_0_readdata),     //                                           .readdata
 		.vgaComponent_0_avalon_slave_0_writedata          (mm_interconnect_0_vgacomponent_0_avalon_slave_0_writedata),    //                                           .writedata
 		.vgaComponent_0_avalon_slave_0_chipselect         (mm_interconnect_0_vgacomponent_0_avalon_slave_0_chipselect)    //                                           .chipselect
 	);

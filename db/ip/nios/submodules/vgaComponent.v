@@ -1,20 +1,26 @@
 module vgaComponent(
-	clock,
+	dataclock,
+	vgaclock,
 	reset,
-	data,
 	addr,
+	data,
+	dataout,
 	wren,
+	rden,
 	rOut,
 	gOut,
 	bOut,
 	hsOut,
 	vsOut
 );
-	input clock;
+	input dataclock;
+	input vgaclock;
 	input reset;
-	input [15:0] data;
-	input [16:0] addr;
+	input [15:0] addr;
+	input [31:0] data;
+	output [31:0] dataout;
 	input wren;
+	input rden;
 	output reg [7:0] rOut;
 	output reg [7:0] gOut;
 	output reg [7:0] bOut;
@@ -31,10 +37,25 @@ module vgaComponent(
 	
 	assign ramAddress = col[11:1] + (row[10:1] * 400);
 	
-	vgaController vga(.clock(clock), .reset(reset), .dispCol(col), .dispRow(row), .visible(visible), .hs(hsOut), .vs(vsOut));
-	videoRAM vRam(.rdaddress(ramAddress), .rdclock(clock), .data(data), .wraddress(addr), .wrclock(clock), .wren(wren), .q(ramOutput));
+	vgaController vga(.clock(vgaclock), .reset(reset), .dispCol(col), .dispRow(row), .visible(visible), .hs(hsOut), .vs(vsOut));
+	//videoRAM vRam(.rdaddress(ramAddress), .rdclock(vgaclock), .data(data), .wraddress(addr), .wrclock(dataclock), .wren(wren), .q(ramOutput));
+	videoRAMv2 vRAM(
+		.address_a(addr),
+		.clock_a(dataclock),
+		.data_a(data),
+		.rden_a(rden),
+		.wren_a(wren),
+		.q_a(dataout),
+		
+		.address_b(ramAddress),
+		.clock_b(vgaclock),
+		.data_b(),
+		.rden_b(1),
+		.wren_b(0),
+		.q_b(ramOutput)
+	);
 	
-	always @(posedge clock or posedge reset)
+	always @(posedge vgaclock or posedge reset)
 	begin
 		if (reset)
 		begin
