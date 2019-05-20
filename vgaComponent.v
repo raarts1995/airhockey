@@ -39,6 +39,7 @@ module vgaComponent(
 	
 	vgaController vga(.clock(vgaclock), .reset(reset), .dispCol(col), .dispRow(row), .visible(visible), .hs(hsOut), .vs(vsOut));
 	//videoRAM vRam(.rdaddress(ramAddress), .rdclock(vgaclock), .data(data), .wraddress(addr), .wrclock(dataclock), .wren(wren), .q(ramOutput));
+	
 	videoRAMv2 vRAM(
 		.address_a(addr),
 		.clock_a(dataclock),

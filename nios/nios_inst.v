@@ -1,9 +1,11 @@
 	nios u0 (
 		.clk_clk                            (<connected-to-clk_clk>),                            //                     clk.clk
-		.i2c_0_i2c_serial_sda_in            (<connected-to-i2c_0_i2c_serial_sda_in>),            //        i2c_0_i2c_serial.sda_in
-		.i2c_0_i2c_serial_scl_in            (<connected-to-i2c_0_i2c_serial_scl_in>),            //                        .scl_in
-		.i2c_0_i2c_serial_sda_oe            (<connected-to-i2c_0_i2c_serial_sda_oe>),            //                        .sda_oe
-		.i2c_0_i2c_serial_scl_oe            (<connected-to-i2c_0_i2c_serial_scl_oe>),            //                        .scl_oe
+		.hex_display_0_outputs_hex0         (<connected-to-hex_display_0_outputs_hex0>),         //   hex_display_0_outputs.hex0
+		.hex_display_0_outputs_hex1         (<connected-to-hex_display_0_outputs_hex1>),         //                        .hex1
+		.hex_display_0_outputs_hex2         (<connected-to-hex_display_0_outputs_hex2>),         //                        .hex2
+		.hex_display_0_outputs_hex3         (<connected-to-hex_display_0_outputs_hex3>),         //                        .hex3
+		.hex_display_0_outputs_hex4         (<connected-to-hex_display_0_outputs_hex4>),         //                        .hex4
+		.hex_display_0_outputs_hex5         (<connected-to-hex_display_0_outputs_hex5>),         //                        .hex5
 		.leds_export                        (<connected-to-leds_export>),                        //                    leds.export
 		.reset_reset_n                      (<connected-to-reset_reset_n>),                      //                   reset.reset_n
 		.vgacomponent_0_outputs_greenoutput (<connected-to-vgacomponent_0_outputs_greenoutput>), //  vgacomponent_0_outputs.greenoutput

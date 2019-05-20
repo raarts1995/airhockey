@@ -5,10 +5,12 @@
 `timescale 1 ps / 1 ps
 module nios (
 		input  wire       clk_clk,                            //                     clk.clk
-		input  wire       i2c_0_i2c_serial_sda_in,            //        i2c_0_i2c_serial.sda_in
-		input  wire       i2c_0_i2c_serial_scl_in,            //                        .scl_in
-		output wire       i2c_0_i2c_serial_sda_oe,            //                        .sda_oe
-		output wire       i2c_0_i2c_serial_scl_oe,            //                        .scl_oe
+		output wire [6:0] hex_display_0_outputs_hex0,         //   hex_display_0_outputs.hex0
+		output wire [6:0] hex_display_0_outputs_hex1,         //                        .hex1
+		output wire [6:0] hex_display_0_outputs_hex2,         //                        .hex2
+		output wire [6:0] hex_display_0_outputs_hex3,         //                        .hex3
+		output wire [6:0] hex_display_0_outputs_hex4,         //                        .hex4
+		output wire [6:0] hex_display_0_outputs_hex5,         //                        .hex5
 		output wire [9:0] leds_export,                        //                    leds.export
 		input  wire       reset_reset_n,                      //                   reset.reset_n
 		output wire [7:0] vgacomponent_0_outputs_greenoutput, //  vgacomponent_0_outputs.greenoutput
@@ -45,11 +47,11 @@ module nios (
 	wire         mm_interconnect_0_vgacomponent_0_avalon_slave_0_read;         // mm_interconnect_0:vgaComponent_0_avalon_slave_0_read -> vgaComponent_0:read
 	wire         mm_interconnect_0_vgacomponent_0_avalon_slave_0_write;        // mm_interconnect_0:vgaComponent_0_avalon_slave_0_write -> vgaComponent_0:write
 	wire  [31:0] mm_interconnect_0_vgacomponent_0_avalon_slave_0_writedata;    // mm_interconnect_0:vgaComponent_0_avalon_slave_0_writedata -> vgaComponent_0:writedata
-	wire  [31:0] mm_interconnect_0_i2c_0_csr_readdata;                         // i2c_0:readdata -> mm_interconnect_0:i2c_0_csr_readdata
-	wire   [3:0] mm_interconnect_0_i2c_0_csr_address;                          // mm_interconnect_0:i2c_0_csr_address -> i2c_0:addr
-	wire         mm_interconnect_0_i2c_0_csr_read;                             // mm_interconnect_0:i2c_0_csr_read -> i2c_0:read
-	wire         mm_interconnect_0_i2c_0_csr_write;                            // mm_interconnect_0:i2c_0_csr_write -> i2c_0:write
-	wire  [31:0] mm_interconnect_0_i2c_0_csr_writedata;                        // mm_interconnect_0:i2c_0_csr_writedata -> i2c_0:writedata
+	wire   [7:0] mm_interconnect_0_hex_display_0_avalon_slave_0_readdata;      // hex_display_0:readdata -> mm_interconnect_0:hex_display_0_avalon_slave_0_readdata
+	wire   [2:0] mm_interconnect_0_hex_display_0_avalon_slave_0_address;       // mm_interconnect_0:hex_display_0_avalon_slave_0_address -> hex_display_0:address
+	wire         mm_interconnect_0_hex_display_0_avalon_slave_0_read;          // mm_interconnect_0:hex_display_0_avalon_slave_0_read -> hex_display_0:read
+	wire         mm_interconnect_0_hex_display_0_avalon_slave_0_write;         // mm_interconnect_0:hex_display_0_avalon_slave_0_write -> hex_display_0:write
+	wire   [7:0] mm_interconnect_0_hex_display_0_avalon_slave_0_writedata;     // mm_interconnect_0:hex_display_0_avalon_slave_0_writedata -> hex_display_0:writedata
 	wire  [31:0] mm_interconnect_0_nios2_qsys_0_jtag_debug_module_readdata;    // nios2_qsys_0:jtag_debug_module_readdata -> mm_interconnect_0:nios2_qsys_0_jtag_debug_module_readdata
 	wire         mm_interconnect_0_nios2_qsys_0_jtag_debug_module_waitrequest; // nios2_qsys_0:jtag_debug_module_waitrequest -> mm_interconnect_0:nios2_qsys_0_jtag_debug_module_waitrequest
 	wire         mm_interconnect_0_nios2_qsys_0_jtag_debug_module_debugaccess; // mm_interconnect_0:nios2_qsys_0_jtag_debug_module_debugaccess -> nios2_qsys_0:jtag_debug_module_debugaccess
@@ -60,7 +62,7 @@ module nios (
 	wire  [31:0] mm_interconnect_0_nios2_qsys_0_jtag_debug_module_writedata;   // mm_interconnect_0:nios2_qsys_0_jtag_debug_module_writedata -> nios2_qsys_0:jtag_debug_module_writedata
 	wire         mm_interconnect_0_onchip_memory2_0_s1_chipselect;             // mm_interconnect_0:onchip_memory2_0_s1_chipselect -> onchip_memory2_0:chipselect
 	wire  [31:0] mm_interconnect_0_onchip_memory2_0_s1_readdata;               // onchip_memory2_0:readdata -> mm_interconnect_0:onchip_memory2_0_s1_readdata
-	wire  [12:0] mm_interconnect_0_onchip_memory2_0_s1_address;                // mm_interconnect_0:onchip_memory2_0_s1_address -> onchip_memory2_0:address
+	wire  [13:0] mm_interconnect_0_onchip_memory2_0_s1_address;                // mm_interconnect_0:onchip_memory2_0_s1_address -> onchip_memory2_0:address
 	wire   [3:0] mm_interconnect_0_onchip_memory2_0_s1_byteenable;             // mm_interconnect_0:onchip_memory2_0_s1_byteenable -> onchip_memory2_0:byteenable
 	wire         mm_interconnect_0_onchip_memory2_0_s1_write;                  // mm_interconnect_0:onchip_memory2_0_s1_write -> onchip_memory2_0:write
 	wire  [31:0] mm_interconnect_0_onchip_memory2_0_s1_writedata;              // mm_interconnect_0:onchip_memory2_0_s1_writedata -> onchip_memory2_0:writedata
@@ -70,36 +72,26 @@ module nios (
 	wire   [1:0] mm_interconnect_0_pio_0_s1_address;                           // mm_interconnect_0:pio_0_s1_address -> pio_0:address
 	wire         mm_interconnect_0_pio_0_s1_write;                             // mm_interconnect_0:pio_0_s1_write -> pio_0:write_n
 	wire  [31:0] mm_interconnect_0_pio_0_s1_writedata;                         // mm_interconnect_0:pio_0_s1_writedata -> pio_0:writedata
-	wire         irq_mapper_receiver0_irq;                                     // i2c_0:intr -> irq_mapper:receiver0_irq
-	wire         irq_mapper_receiver1_irq;                                     // jtag_uart_0:av_irq -> irq_mapper:receiver1_irq
+	wire         irq_mapper_receiver0_irq;                                     // jtag_uart_0:av_irq -> irq_mapper:receiver0_irq
 	wire  [31:0] nios2_qsys_0_d_irq_irq;                                       // irq_mapper:sender_irq -> nios2_qsys_0:d_irq
-	wire         rst_controller_reset_out_reset;                               // rst_controller:reset_out -> [i2c_0:rst_n, irq_mapper:reset, jtag_uart_0:rst_n, mm_interconnect_0:nios2_qsys_0_reset_n_reset_bridge_in_reset_reset, nios2_qsys_0:reset_n, onchip_memory2_0:reset, pio_0:reset_n, rst_translator:in_reset, vgaComponent_0:resetn]
+	wire         rst_controller_reset_out_reset;                               // rst_controller:reset_out -> [hex_display_0:resetn, irq_mapper:reset, jtag_uart_0:rst_n, mm_interconnect_0:nios2_qsys_0_reset_n_reset_bridge_in_reset_reset, nios2_qsys_0:reset_n, onchip_memory2_0:reset, pio_0:reset_n, rst_translator:in_reset, vgaComponent_0:resetn]
 	wire         rst_controller_reset_out_reset_req;                           // rst_controller:reset_req -> [nios2_qsys_0:reset_req, onchip_memory2_0:reset_req, rst_translator:reset_req_in]
 	wire         nios2_qsys_0_jtag_debug_module_reset_reset;                   // nios2_qsys_0:jtag_debug_module_resetrequest -> rst_controller:reset_in1
 
-	altera_avalon_i2c #(
-		.USE_AV_ST       (0),
-		.FIFO_DEPTH      (4),
-		.FIFO_DEPTH_LOG2 (2)
-	) i2c_0 (
-		.clk       (clk_clk),                               //            clock.clk
-		.rst_n     (~rst_controller_reset_out_reset),       //       reset_sink.reset_n
-		.intr      (irq_mapper_receiver0_irq),              // interrupt_sender.irq
-		.addr      (mm_interconnect_0_i2c_0_csr_address),   //              csr.address
-		.read      (mm_interconnect_0_i2c_0_csr_read),      //                 .read
-		.write     (mm_interconnect_0_i2c_0_csr_write),     //                 .write
-		.writedata (mm_interconnect_0_i2c_0_csr_writedata), //                 .writedata
-		.readdata  (mm_interconnect_0_i2c_0_csr_readdata),  //                 .readdata
-		.sda_in    (i2c_0_i2c_serial_sda_in),               //       i2c_serial.sda_in
-		.scl_in    (i2c_0_i2c_serial_scl_in),               //                 .scl_in
-		.sda_oe    (i2c_0_i2c_serial_sda_oe),               //                 .sda_oe
-		.scl_oe    (i2c_0_i2c_serial_scl_oe),               //                 .scl_oe
-		.src_data  (),                                      //      (terminated)
-		.src_valid (),                                      //      (terminated)
-		.src_ready (1'b0),                                  //      (terminated)
-		.snk_data  (16'b0000000000000000),                  //      (terminated)
-		.snk_valid (1'b0),                                  //      (terminated)
-		.snk_ready ()                                       //      (terminated)
+	hexDisplay_avalon_interface hex_display_0 (
+		.resetn    (~rst_controller_reset_out_reset),                          //    clock_reset.reset_n
+		.address   (mm_interconnect_0_hex_display_0_avalon_slave_0_address),   // avalon_slave_0.address
+		.write     (mm_interconnect_0_hex_display_0_avalon_slave_0_write),     //               .write
+		.writedata (mm_interconnect_0_hex_display_0_avalon_slave_0_writedata), //               .writedata
+		.read      (mm_interconnect_0_hex_display_0_avalon_slave_0_read),      //               .read
+		.readdata  (mm_interconnect_0_hex_display_0_avalon_slave_0_readdata),  //               .readdata
+		.clock     (clk_clk),                                                  //     clock_sink.clk
+		.hex0out   (hex_display_0_outputs_hex0),                               //    conduit_end.hex0
+		.hex1out   (hex_display_0_outputs_hex1),                               //               .hex1
+		.hex2out   (hex_display_0_outputs_hex2),                               //               .hex2
+		.hex3out   (hex_display_0_outputs_hex3),                               //               .hex3
+		.hex4out   (hex_display_0_outputs_hex4),                               //               .hex4
+		.hex5out   (hex_display_0_outputs_hex5)                                //               .hex5
 	);
 
 	nios_jtag_uart_0 jtag_uart_0 (
@@ -112,7 +104,7 @@ module nios (
 		.av_write_n     (~mm_interconnect_0_jtag_uart_0_avalon_jtag_slave_write),      //                  .write_n
 		.av_writedata   (mm_interconnect_0_jtag_uart_0_avalon_jtag_slave_writedata),   //                  .writedata
 		.av_waitrequest (mm_interconnect_0_jtag_uart_0_avalon_jtag_slave_waitrequest), //                  .waitrequest
-		.av_irq         (irq_mapper_receiver1_irq)                                     //               irq.irq
+		.av_irq         (irq_mapper_receiver0_irq)                                     //               irq.irq
 	);
 
 	nios_nios2_qsys_0 nios2_qsys_0 (
@@ -203,11 +195,11 @@ module nios (
 		.nios2_qsys_0_instruction_master_read             (nios2_qsys_0_instruction_master_read),                         //                                           .read
 		.nios2_qsys_0_instruction_master_readdata         (nios2_qsys_0_instruction_master_readdata),                     //                                           .readdata
 		.nios2_qsys_0_instruction_master_readdatavalid    (nios2_qsys_0_instruction_master_readdatavalid),                //                                           .readdatavalid
-		.i2c_0_csr_address                                (mm_interconnect_0_i2c_0_csr_address),                          //                                  i2c_0_csr.address
-		.i2c_0_csr_write                                  (mm_interconnect_0_i2c_0_csr_write),                            //                                           .write
-		.i2c_0_csr_read                                   (mm_interconnect_0_i2c_0_csr_read),                             //                                           .read
-		.i2c_0_csr_readdata                               (mm_interconnect_0_i2c_0_csr_readdata),                         //                                           .readdata
-		.i2c_0_csr_writedata                              (mm_interconnect_0_i2c_0_csr_writedata),                        //                                           .writedata
+		.hex_display_0_avalon_slave_0_address             (mm_interconnect_0_hex_display_0_avalon_slave_0_address),       //               hex_display_0_avalon_slave_0.address
+		.hex_display_0_avalon_slave_0_write               (mm_interconnect_0_hex_display_0_avalon_slave_0_write),         //                                           .write
+		.hex_display_0_avalon_slave_0_read                (mm_interconnect_0_hex_display_0_avalon_slave_0_read),          //                                           .read
+		.hex_display_0_avalon_slave_0_readdata            (mm_interconnect_0_hex_display_0_avalon_slave_0_readdata),      //                                           .readdata
+		.hex_display_0_avalon_slave_0_writedata           (mm_interconnect_0_hex_display_0_avalon_slave_0_writedata),     //                                           .writedata
 		.jtag_uart_0_avalon_jtag_slave_address            (mm_interconnect_0_jtag_uart_0_avalon_jtag_slave_address),      //              jtag_uart_0_avalon_jtag_slave.address
 		.jtag_uart_0_avalon_jtag_slave_write              (mm_interconnect_0_jtag_uart_0_avalon_jtag_slave_write),        //                                           .write
 		.jtag_uart_0_avalon_jtag_slave_read               (mm_interconnect_0_jtag_uart_0_avalon_jtag_slave_read),         //                                           .read
@@ -247,7 +239,6 @@ module nios (
 		.clk           (clk_clk),                        //       clk.clk
 		.reset         (rst_controller_reset_out_reset), // clk_reset.reset
 		.receiver0_irq (irq_mapper_receiver0_irq),       // receiver0.irq
-		.receiver1_irq (irq_mapper_receiver1_irq),       // receiver1.irq
 		.sender_irq    (nios2_qsys_0_d_irq_irq)          //    sender.irq
 	);
 

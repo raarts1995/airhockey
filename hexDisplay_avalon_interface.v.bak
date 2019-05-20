@@ -1,0 +1,17 @@
+module hexDisplay_avalon_interface(
+	clock,
+	resetn,
+	address,
+	write,
+	writedata,
+	read,
+	readdata,
+	
+	hex0out,
+	hex1out,
+	hex2out,
+	hex3out,
+	hex4out,
+	hex5out
+);
+	input clock, resetn, write, read;

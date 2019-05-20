@@ -263,6 +263,8 @@ module DE1_SOC_golden_top(
 	
 	wire scl;
 	wire sda;
+	wire intn;
+	
 	wire sclOe;
 	wire sdaOe;
 	
@@ -281,10 +283,9 @@ module DE1_SOC_golden_top(
 	
 	assign GPIO_1[32] = scl;
 	assign GPIO_1[33] = sda;
-	assign scl = sclOe ? 1'b0 : 1'bz;
-	assign sda = sdaOe ? 1'b0 : 1'bz;
-	
-	assign ramAddress = col[11:1] + (row[10:1] * 400);
+	assign GPIO_1[34] = intn;
+	/*assign scl = sclOe ? 1'b0 : 1'bz;
+	assign sda = sdaOe ? 1'b0 : 1'bz;*/
 
 //=======================================================
 //  Structural coding
@@ -293,10 +294,13 @@ module DE1_SOC_golden_top(
 	pll33mhz pll(.refclk(dataClock), .rst(reset), .outclk_0(vgaClock));
 	nios u0 (
         .clk_clk                            (dataClock),
-        .i2c_0_i2c_serial_sda_in            (sda),
+		  /*.i2c_scl                            (scl),
+        .i2c_sda                            (sda),
+        .i2c_intn                           (intn),*/
+        /*.i2c_0_i2c_serial_sda_in            (sda),
         .i2c_0_i2c_serial_scl_in            (scl),
         .i2c_0_i2c_serial_sda_oe            (sdaOe),
-        .i2c_0_i2c_serial_scl_oe            (sclOe),
+        .i2c_0_i2c_serial_scl_oe            (sclOe),*/
         .reset_reset_n                      (resetn),
         .vgacomponent_0_outputs_redoutput   (red),
         .vgacomponent_0_outputs_greenoutput (green),
@@ -304,49 +308,37 @@ module DE1_SOC_golden_top(
         .vgacomponent_0_outputs_hsoutput    (hs),
         .vgacomponent_0_outputs_vsoutput    (vs),
 		  .vgacomponent_0_vgaclock_clk        (vgaClock),
-		  .leds_export                        (LEDR)
+		  .leds_export                        (/*LEDR*/),
+		  .hex_display_0_outputs_hex0         (HEX0),
+        .hex_display_0_outputs_hex1         (HEX1),
+        .hex_display_0_outputs_hex2         (HEX2),
+        .hex_display_0_outputs_hex3         (HEX3),
+        .hex_display_0_outputs_hex4         (HEX4),
+        .hex_display_0_outputs_hex5         (HEX5)
     );
 	 
-	 /*vgaComponent vgaCom(
-		.dataclock(dataClock),
-		.vgaclock(vgaClock),
-		.reset(!resetn),
-		.data(16'hBAAB),
-		.addr(16'hBAAB),
-		.wren(1),
-		.rOut(red),
-		.gOut(green),
-		.bOut(blue),
-		.hsOut(hs),
-		.vsOut(vs)
-	);*/
-	
-	/*vgaController vga(.clock(vgaClock), .reset(reset), .dispCol(col), .dispRow(row), .visible(visible), .hs(hs), .vs(vs));
-	videoRAM vRam(.data(ramAddress[15:0]), .rdaddress(ramAddress), .rdclock(vgaClock), .wraddress(ramAddress), .wrclock(dataClock), .wren(1), .q(ramOutput));
-	
-	always @(posedge vgaClock or negedge reset)
-	begin
-		if (!reset)
-		begin
-			red = 0;
-			green = 0;
-			blue = 0;
-		end
-		else
-		begin
-			if (visible)
-			begin
-				red =   {ramOutput[15:11], 3'b0};
-				green = {ramOutput[10:5], 2'b0};
-				blue =  {ramOutput[4:0], 3'b0};
-			end
-			else
-			begin
-				red= 0;
-				green = 0;
-				blue = 0;
-			end
-		end
-	end*/
+	 i2c_touch_config touch(
+		//Host Side
+		.iCLK(dataClock),
+		.iRSTN(resetn),
+		.oREADY(),
+		.INT_n(intn),
+		.oREG_X1(),
+		.oREG_Y1(),
+		.oREG_X2(),
+		.oREG_Y2(),
+		.oREG_X3(),
+		.oREG_Y3(),
+		.oREG_X4(),
+		.oREG_Y4(),
+		.oREG_X5(),
+		.oREG_Y5(),
+		.oREG_GESTURE(gestCode),
+		.oREG_TOUCH_COUNT(LEDR[7:0]),
+		//I2C Side
+		.I2C_SDAT(sda),
+		.I2C_SCLK(scl)
+
+	);
 	
 endmodule

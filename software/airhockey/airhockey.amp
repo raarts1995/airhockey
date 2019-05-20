@@ -12,8 +12,6 @@
     <program>
         <type>C Program</type>
         <source_files>
-            <source_file filepath="true">i2c.c</source_file>
-            <source_file filepath="true">i2c.h</source_file>
             <source_file filepath="true">lcd.c</source_file>
             <source_file filepath="true">lcd.h</source_file>
             <source_file filepath="true">led.c</source_file>
@@ -23,14 +21,15 @@
         </source_files>
         <options>
             <compiler_flags>-g -O0 -ffunction-sections -fverbose-asm -fno-inline -mno-cache-volatile</compiler_flags>
+            <linker_flags>-lm</linker_flags>
             <emulate_unimpl_instructions>true</emulate_unimpl_instructions>
             <use_small_c_library>true</use_small_c_library>
         </options>
         <linker_sections>
             <linker_section name=".text">
                 <memory_device>onchip_memory2_0.s1</memory_device>
-                <base_address>0x00041000</base_address>
-                <end_address>0x00041FFF</end_address>
+                <base_address>0x00050000</base_address>
+                <end_address>0x0005FFFF</end_address>
                 <required_section/>
             </linker_section>
         </linker_sections>

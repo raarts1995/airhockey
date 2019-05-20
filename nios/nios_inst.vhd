@@ -1,10 +1,12 @@
 	component nios is
 		port (
 			clk_clk                            : in  std_logic                    := 'X'; -- clk
-			i2c_0_i2c_serial_sda_in            : in  std_logic                    := 'X'; -- sda_in
-			i2c_0_i2c_serial_scl_in            : in  std_logic                    := 'X'; -- scl_in
-			i2c_0_i2c_serial_sda_oe            : out std_logic;                           -- sda_oe
-			i2c_0_i2c_serial_scl_oe            : out std_logic;                           -- scl_oe
+			hex_display_0_outputs_hex0         : out std_logic_vector(6 downto 0);        -- hex0
+			hex_display_0_outputs_hex1         : out std_logic_vector(6 downto 0);        -- hex1
+			hex_display_0_outputs_hex2         : out std_logic_vector(6 downto 0);        -- hex2
+			hex_display_0_outputs_hex3         : out std_logic_vector(6 downto 0);        -- hex3
+			hex_display_0_outputs_hex4         : out std_logic_vector(6 downto 0);        -- hex4
+			hex_display_0_outputs_hex5         : out std_logic_vector(6 downto 0);        -- hex5
 			leds_export                        : out std_logic_vector(9 downto 0);        -- export
 			reset_reset_n                      : in  std_logic                    := 'X'; -- reset_n
 			vgacomponent_0_outputs_greenoutput : out std_logic_vector(7 downto 0);        -- greenoutput
@@ -19,10 +21,12 @@
 	u0 : component nios
 		port map (
 			clk_clk                            => CONNECTED_TO_clk_clk,                            --                     clk.clk
-			i2c_0_i2c_serial_sda_in            => CONNECTED_TO_i2c_0_i2c_serial_sda_in,            --        i2c_0_i2c_serial.sda_in
-			i2c_0_i2c_serial_scl_in            => CONNECTED_TO_i2c_0_i2c_serial_scl_in,            --                        .scl_in
-			i2c_0_i2c_serial_sda_oe            => CONNECTED_TO_i2c_0_i2c_serial_sda_oe,            --                        .sda_oe
-			i2c_0_i2c_serial_scl_oe            => CONNECTED_TO_i2c_0_i2c_serial_scl_oe,            --                        .scl_oe
+			hex_display_0_outputs_hex0         => CONNECTED_TO_hex_display_0_outputs_hex0,         --   hex_display_0_outputs.hex0
+			hex_display_0_outputs_hex1         => CONNECTED_TO_hex_display_0_outputs_hex1,         --                        .hex1
+			hex_display_0_outputs_hex2         => CONNECTED_TO_hex_display_0_outputs_hex2,         --                        .hex2
+			hex_display_0_outputs_hex3         => CONNECTED_TO_hex_display_0_outputs_hex3,         --                        .hex3
+			hex_display_0_outputs_hex4         => CONNECTED_TO_hex_display_0_outputs_hex4,         --                        .hex4
+			hex_display_0_outputs_hex5         => CONNECTED_TO_hex_display_0_outputs_hex5,         --                        .hex5
 			leds_export                        => CONNECTED_TO_leds_export,                        --                    leds.export
 			reset_reset_n                      => CONNECTED_TO_reset_reset_n,                      --                   reset.reset_n
 			vgacomponent_0_outputs_greenoutput => CONNECTED_TO_vgacomponent_0_outputs_greenoutput, --  vgacomponent_0_outputs.greenoutput

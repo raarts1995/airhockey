@@ -1,0 +1,38 @@
+module touchConfig_avalon_interface(
+	clock,
+	resetn,
+	address,
+	read,
+	readdata,
+	
+	sda,
+	scl
+);
+
+input clock, resetn, read;
+
+inout sda, scl;
+
+i2c_touch_config touch(
+               //Host Side
+               iCLK,
+               iRSTN,
+               oREADY,
+               INT_n,
+               oREG_X1,
+               oREG_Y1,
+               oREG_X2,
+               oREG_Y2,
+               oREG_X3,
+               oREG_Y3,
+               oREG_X4,
+               oREG_Y4,
+               oREG_X5,
+               oREG_Y5,
+               oREG_GESTURE,
+               oREG_TOUCH_COUNT,
+               //I2C Side
+               I2C_SDAT,
+               I2C_SCLK
+
+ );

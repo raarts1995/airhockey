@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <preferences>
  <debug showDebugMenu="0" />
- <systemtable filter="All Interfaces">
+ <systemtable filter="All Interfaces" showClockDomains="0" showResetDomains="0">
   <columns>
    <connections preferredWidth="143" />
    <irq preferredWidth="34" />
   </columns>
  </systemtable>
- <library expandedCategories="Library,Project" />
- <window width="1920" height="1040" x="0" y="0" />
+ <library expandedCategories="Library,Project/Own blocks,Project" />
+ <window width="1430" height="1040" x="490" y="0" />
  <hdlexample language="VERILOG" />
 </preferences>
