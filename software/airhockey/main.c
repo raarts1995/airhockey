@@ -27,7 +27,7 @@ int main()
 	
 	Circle c[]  =  {{10,  10,  10,  1, 0.5, 2},
 					{100, 20,  10, -1, 0.5, 2},
-					{100, 100, 10, -0.5, 1, 2},
+					{100, 100, 20, -0.5, 1, 6},
 					{50,  200, 10, -1, 1, 2},
 					{50,  50,  10, 1, 1.5, 2}
 					};
@@ -42,8 +42,6 @@ int main()
 	hex_number(5, 4);
 	
 	while (1) {
-		/*drawPuck(c[0], 0);
-		drawPuck(c[1], 0);*/
 		for (int i = 0; i < cLen; i++) {
 			drawPuck(c[i], 0);
 		}
@@ -51,18 +49,13 @@ int main()
 		for (int i = 0; i < 50000; i++)
 			;
 		
-		/*drawPuck(c[0], 0xffff);
-		drawPuck(c[1], 0xffff);*/
 		for (int i = 0; i < cLen; i++)
 			drawPuck(c[i], 0xffff);
 		
-		//circleVsCircle(&c[0], &c[1]);
 		for (int i = 0; i < cLen-1; i++)
 			for (int j = i+1; j < cLen; j++)
 				circleVsCircle(&c[i], &c[j]);
 			
-		/*updatePuck(&c[0]);
-		updatePuck(&c[1]);*/
 		for (int i = 0; i < cLen; i++)
 			updatePuck(&c[i]);
 		
@@ -72,24 +65,25 @@ int main()
 	return 0;
 }
 
+//https://ericleong.me/research/circle-circle/
 int circleVsCircle(Circle *a, Circle *b) {
 	if ((pow((*a).x - (*b).x, 2) + pow((*a).y - (*b).y, 2)) < pow((*a).r + (*b).r, 2)) {
 
 		float d = sqrt(pow((*a).x - (*b).x, 2) + pow((*a).y - (*b).y, 2));
-		/*float nx = ((*a).x - (*b).x) / 2;
-		float ny = ((*a).y - (*b).y) / 2;*/
+		float nx = ((*a).x - (*b).x) / d;
+		float ny = ((*a).y - (*b).y) / d;
 		
-		float nx = (*b).x - (*a).x;
+		/*float nx = (*b).x - (*a).x;
 		float ny = (*b).y - (*a).y;
 		float len = sqrt(nx*nx + ny*ny);
 		nx /= len;
-		ny /= len;
+		ny /= len;*/
 		
 		float p = 2 * ((*a).vx * nx + (*a).vy * ny - (*b).vx * nx - (*b).vy * ny) / ((*a).mass + (*b).mass);
-		(*a).vx = (*a).vx - p * (*a).mass * nx;
-		(*a).vy = (*a).vy - p * (*a).mass * ny;
-		(*b).vx = (*b).vx + p * (*b).mass * nx;
-		(*b).vy = (*b).vy + p * (*b).mass * ny;
+		(*a).vx = (*a).vx - p * (*b).mass * nx;
+		(*a).vy = (*a).vy - p * (*b).mass * ny;
+		(*b).vx = (*b).vx + p * (*a).mass * nx;
+		(*b).vy = (*b).vy + p * (*a).mass * ny;
 		return 1;
 	}
 	else

@@ -26,6 +26,10 @@ uint16_t lcd_getPixel(int x, int y) {
 	if ((x >= LCD_WIDTH) || (x < 0) || (y >= LCD_HEIGHT) || (y < 0))
 		return 0;
 	uint32_t val = lcdBase[pixToAddr(x, y)];
+	if (x & 1)
+		return (val >> 16) & 0xFFFF;
+	else
+		return val & 0xFFFF;
 }
 
 void lcd_drawRect(int x, int y, int w, int h, uint16_t color) {

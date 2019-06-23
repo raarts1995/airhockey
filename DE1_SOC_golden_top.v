@@ -291,7 +291,7 @@ module DE1_SOC_golden_top(
 //  Structural coding
 //=======================================================
 
-	pll33mhz pll(.refclk(dataClock), .rst(reset), .outclk_0(vgaClock));
+	pll33mhz pll(.refclk(dataClock), .rst(0), .outclk_0(vgaClock));
 	nios u0 (
         .clk_clk                            (dataClock),
 		  /*.i2c_scl                            (scl),
@@ -323,7 +323,7 @@ module DE1_SOC_golden_top(
 		.iRSTN(resetn),
 		.oREADY(),
 		.INT_n(intn),
-		.oREG_X1(),
+		.oREG_X1(LEDR[9:0]),
 		.oREG_Y1(),
 		.oREG_X2(),
 		.oREG_Y2(),
@@ -333,8 +333,8 @@ module DE1_SOC_golden_top(
 		.oREG_Y4(),
 		.oREG_X5(),
 		.oREG_Y5(),
-		.oREG_GESTURE(gestCode),
-		.oREG_TOUCH_COUNT(LEDR[7:0]),
+		.oREG_GESTURE(),
+		.oREG_TOUCH_COUNT(),
 		//I2C Side
 		.I2C_SDAT(sda),
 		.I2C_SCLK(scl)
